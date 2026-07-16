@@ -43,8 +43,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="pt-BR">
       <head>
-        <link rel="icon" href="/favicon.png?v=filmo-o-2" type="image/png" sizes="320x320" />
-        <link rel="shortcut icon" href="/favicon.png?v=filmo-o-2" type="image/png" />
+        <link rel="icon" href="/favicon.png?v=filmo-o-3" type="image/png" sizes="320x320" />
+        <link rel="shortcut icon" href="/favicon.png?v=filmo-o-3" type="image/png" />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>{children}</body>
     </html>

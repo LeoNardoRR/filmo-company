@@ -1,32 +1,33 @@
 import Image from "next/image";
 
 const whatsapp =
-  "https://wa.me/5519981145592?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Filmo%20Company%20e%20gostaria%20de%20conversar%20sobre%20um%20projeto.";
+  "https://wa.me/5519988509636?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Filmo%20Company%20e%20gostaria%20de%20conversar%20sobre%20um%20projeto.";
 
 const projects = [
   {
     title: "Retrato de noiva",
     category: "Casamento",
     image: "/images/project-wedding.jpg",
-    className: "project project--wide",
   },
   {
     title: "Ensaio pré-wedding",
-    category: "Ensaio",
+    category: "Casais",
     image: "/images/project-couple.jpg",
-    className: "project",
   },
   {
     title: "Casamento civil",
     category: "Casamento",
     image: "/images/project-civil.jpg",
-    className: "project",
   },
   {
     title: "Retrato corporativo",
     category: "Marcas",
+    image: "/images/project-food.jpg",
+  },
+  {
+    title: "Fotografia gastronômica",
+    category: "Gastronomia",
     image: "/images/project-corporate.jpg",
-    className: "project project--wide",
   },
 ];
 
@@ -59,7 +60,7 @@ export default function Home() {
   return (
     <main>
       <header className="site-header">
-        <a className="brand" href="#inicio" aria-label="Filmo Company — início">
+        <a className="brand" href="#inicio" aria-label="Filmo Company, início">
           <Image src="/images/logo.png" alt="Filmo Company" width={396} height={154} priority />
         </a>
 
@@ -86,21 +87,12 @@ export default function Home() {
       </header>
 
       <section className="hero" id="inicio">
-        <Image
-          className="hero__image"
-          src="/images/hero.jpg"
-          alt="Produção audiovisual da Filmo Company"
-          fill
-          sizes="100vw"
-          priority
-        />
-        <div className="hero__veil" />
         <div className="hero__content shell">
-          <p className="eyebrow">Produtora audiovisual · Americana, SP</p>
-          <h1>
-            Filmes que transformam <em>marcas e momentos</em> em histórias memoráveis.
-          </h1>
-          <div className="hero__bottom">
+          <div className="hero__copy">
+            <p className="eyebrow">Produtora audiovisual · Americana, SP</p>
+            <h1>
+              Filmes que transformam <em>marcas e momentos</em> em histórias memoráveis.
+            </h1>
             <p>
               Da primeira ideia à entrega final, criamos filmes e fotografias que aproximam pessoas e dão forma ao que merece ser lembrado.
             </p>
@@ -112,6 +104,28 @@ export default function Home() {
                 Solicite um orçamento
               </a>
             </div>
+          </div>
+          <div className="hero__visual" aria-label="Retratos de projetos para marcas e momentos">
+            <figure className="hero__frame hero__frame--main">
+              <Image
+                src="/images/project-food.jpg"
+                alt="Retrato corporativo produzido pela Filmo Company"
+                fill
+                sizes="(max-width: 760px) 78vw, 40vw"
+                priority
+              />
+              <figcaption>Marcas</figcaption>
+            </figure>
+            <figure className="hero__frame hero__frame--accent">
+              <Image
+                src="/images/project-wedding.jpg"
+                alt="Retrato de noiva produzido pela Filmo Company"
+                fill
+                sizes="(max-width: 760px) 42vw, 20vw"
+              />
+              <figcaption>Momentos</figcaption>
+            </figure>
+            <span className="hero__visual-mark" aria-hidden="true">FILMO / OLHAR AUTORAL</span>
           </div>
         </div>
         <div className="hero__index" aria-hidden="true">
@@ -133,18 +147,18 @@ export default function Home() {
             <h2>Histórias vistas pelo nosso olhar.</h2>
           </div>
           <p className="section-heading__note">
-            Um recorte de projetos para pessoas, empresas e marcas da região de Americana e de todo o Brasil.
+            Uma seleção de histórias que registramos para casamentos, empresas e marcas.
           </p>
         </div>
 
-        <div className="project-grid">
+        <div className="project-rail" aria-label="Galeria de trabalhos selecionados">
           {projects.map((project, index) => (
-            <article className={project.className} key={project.title}>
+            <article className="project" key={project.title}>
               <Image
                 src={project.image}
                 alt={project.title}
                 fill
-                sizes={project.className.includes("wide") ? "(max-width: 760px) 100vw, 66vw" : "(max-width: 760px) 100vw, 34vw"}
+                sizes="(max-width: 760px) 78vw, 31vw"
               />
               <div className="project__overlay" />
               <span className="project__number">0{index + 1}</span>
@@ -154,6 +168,10 @@ export default function Home() {
               </div>
             </article>
           ))}
+        </div>
+        <div className="project-rail__footer" aria-hidden="true">
+          <span>Arraste para ver mais</span>
+          <span>01 / 05</span>
         </div>
       </section>
 
@@ -200,7 +218,7 @@ export default function Home() {
           <p className="eyebrow">Sobre a Filmo</p>
           <h2>Histórias reais. Imagens com intenção.</h2>
           <p className="about__lead">
-            A Filmo Company nasceu da vontade de contar histórias através das lentes — com técnica, sensibilidade e proximidade em cada etapa.
+            A Filmo Company nasceu da vontade de contar histórias através das lentes, com técnica, sensibilidade e proximidade em cada etapa.
           </p>
           <p>
             Criamos produções para empresas, marcas e eventos sociais. Cada projeto começa pela escuta e termina com um material que parece verdadeiro para quem viveu e relevante para quem assiste.
@@ -261,7 +279,7 @@ export default function Home() {
           </div>
           <div>
             <span>Telefone</span>
-            <a href={whatsapp} target="_blank" rel="noreferrer">+55 19 98114-5592</a>
+            <a href={whatsapp} target="_blank" rel="noreferrer">+55 19 98850-9636</a>
           </div>
           <div>
             <span>Localização</span>
@@ -274,10 +292,12 @@ export default function Home() {
         </div>
       </section>
 
-      <footer className="site-footer shell">
-        <Image src="/images/logo.png" alt="Filmo Company" width={396} height={154} />
-        <p>Produção audiovisual em Americana, SP.</p>
-        <p>© 2026 Filmo Company</p>
+      <footer className="site-footer">
+        <div className="site-footer__inner shell">
+          <Image src="/images/logo.png" alt="Filmo Company" width={396} height={154} />
+          <p>Produção audiovisual em Americana, SP.</p>
+          <p>© 2026 Filmo Company</p>
+        </div>
       </footer>
     </main>
   );

@@ -32,7 +32,7 @@ export const metadata: Metadata = {
         url: "/og.png",
         width: 1729,
         height: 910,
-        alt: "Filmo Company — Histórias reais. Imagens com intenção.",
+        alt: "Filmo Company: histórias reais. Imagens com intenção.",
       },
     ],
   },

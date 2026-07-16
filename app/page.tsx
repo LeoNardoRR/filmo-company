@@ -120,7 +120,7 @@ export default function Home() {
               </a>
             </div>
           </div>
-          <div className="hero__visual" aria-label="Retratos de projetos para marcas e momentos">
+          <div className="hero__visual" aria-label="Ensaio pré-wedding produzido pela Filmo Company">
             <figure className="hero__frame hero__frame--single">
               <Image
                 src="/images/project-couple.jpg"
@@ -129,7 +129,6 @@ export default function Home() {
                 sizes="(max-width: 760px) 100vw, 46vw"
                 priority
               />
-              <figcaption>Pré-wedding</figcaption>
             </figure>
             <span className="hero__visual-mark" aria-hidden="true">FILMO / OLHAR AUTORAL</span>
           </div>

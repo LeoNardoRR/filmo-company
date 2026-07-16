@@ -17,11 +17,6 @@ export const metadata: Metadata = {
   title: "Filmo Company | Produção Audiovisual em Americana, SP",
   description:
     "Filmes, fotografia e conteúdo audiovisual para marcas, eventos e histórias que merecem ser lembradas.",
-  icons: {
-    icon: [{ url: "/favicon.png?v=filmo-o", type: "image/png", sizes: "320x320" }],
-    shortcut: "/favicon.png?v=filmo-o",
-    apple: "/favicon.png?v=filmo-o",
-  },
   openGraph: {
     title: "Filmo Company | Histórias reais, imagens com intenção",
     description: "Produção audiovisual para marcas, eventos e conteúdo digital em Americana, SP.",
@@ -47,6 +42,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="pt-BR">
+      <head>
+        <link rel="icon" href="/favicon.png?v=filmo-o-2" type="image/png" sizes="320x320" />
+        <link rel="shortcut icon" href="/favicon.png?v=filmo-o-2" type="image/png" />
+      </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>{children}</body>
     </html>
   );

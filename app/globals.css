@@ -158,8 +158,8 @@ img {
 
 .hero__visual {
   position: relative;
-  height: min(690px, calc(100svh - 190px));
-  min-height: 560px;
+  height: min(590px, calc(100svh - 260px));
+  min-height: 480px;
 }
 
 .hero__frame {
@@ -180,22 +180,11 @@ img {
   filter: saturate(1);
 }
 
-.hero__frame figcaption {
-  position: absolute;
-  right: 18px;
-  bottom: 18px;
-  padding: 9px 12px;
-  color: var(--ink);
-  background: var(--yellow);
-  font-family: var(--font-geist-mono), monospace;
-  font-size: 9px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
 .hero__frame--single {
-  inset: 0 0 0 auto;
-  width: 90%;
+  top: 6%;
+  right: 0;
+  width: 78%;
+  height: 88%;
 }
 
 .hero__frame--single img {
@@ -823,7 +812,7 @@ blockquote footer span {
   }
 
   .hero__visual {
-    height: 590px;
+    height: 520px;
     min-height: 0;
   }
 
@@ -906,11 +895,11 @@ blockquote footer span {
   }
 
   .hero__visual {
-    height: 500px;
+    height: 430px;
   }
 
   .hero__frame--single {
-    width: 100%;
+    width: 86%;
   }
 
   .hero__visual-mark {

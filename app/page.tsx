@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { useRef } from "react";
 
 const whatsapp =
   "https://wa.me/5519988509636?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Filmo%20Company%20e%20gostaria%20de%20conversar%20sobre%20um%20projeto.";
@@ -57,6 +60,18 @@ const process = [
 ];
 
 export default function Home() {
+  const projectRail = useRef<HTMLDivElement>(null);
+
+  function scrollProjects(direction: -1 | 1) {
+    const rail = projectRail.current;
+
+    if (!rail) return;
+
+    const firstProject = rail.querySelector<HTMLElement>(".project");
+    const cardWidth = firstProject?.getBoundingClientRect().width ?? rail.clientWidth * 0.8;
+    rail.scrollBy({ left: direction * (cardWidth + 18), behavior: "smooth" });
+  }
+
   return (
     <main>
       <header className="site-header">
@@ -108,22 +123,22 @@ export default function Home() {
           <div className="hero__visual" aria-label="Retratos de projetos para marcas e momentos">
             <figure className="hero__frame hero__frame--main">
               <Image
-                src="/images/project-food.jpg"
-                alt="Retrato corporativo produzido pela Filmo Company"
+                src="/images/project-corporate.jpg"
+                alt="Fotografia gastronômica produzida pela Filmo Company"
                 fill
                 sizes="(max-width: 760px) 78vw, 40vw"
                 priority
               />
-              <figcaption>Marcas</figcaption>
+              <figcaption>Gastronomia</figcaption>
             </figure>
             <figure className="hero__frame hero__frame--accent">
               <Image
-                src="/images/project-wedding.jpg"
-                alt="Retrato de noiva produzido pela Filmo Company"
+                src="/images/project-couple.jpg"
+                alt="Ensaio pré-wedding produzido pela Filmo Company"
                 fill
                 sizes="(max-width: 760px) 42vw, 20vw"
               />
-              <figcaption>Momentos</figcaption>
+              <figcaption>Pré-wedding</figcaption>
             </figure>
             <span className="hero__visual-mark" aria-hidden="true">FILMO / OLHAR AUTORAL</span>
           </div>
@@ -151,7 +166,7 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="project-rail" aria-label="Galeria de trabalhos selecionados">
+        <div className="project-rail" ref={projectRail} aria-label="Galeria de trabalhos selecionados">
           {projects.map((project, index) => (
             <article className="project" key={project.title}>
               <Image
@@ -169,9 +184,16 @@ export default function Home() {
             </article>
           ))}
         </div>
-        <div className="project-rail__footer" aria-hidden="true">
-          <span>Arraste para ver mais</span>
-          <span>01 / 05</span>
+        <div className="project-rail__footer">
+          <span>Use as setas para ver mais</span>
+          <div className="project-rail__controls" aria-label="Controles da galeria">
+            <button type="button" onClick={() => scrollProjects(-1)} aria-label="Ver trabalho anterior">
+              ←
+            </button>
+            <button type="button" onClick={() => scrollProjects(1)} aria-label="Ver próximo trabalho">
+              →
+            </button>
+          </div>
         </div>
       </section>
 

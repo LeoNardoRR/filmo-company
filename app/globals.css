@@ -201,7 +201,7 @@ img {
 }
 
 .hero__frame--main img {
-  object-position: center 28%;
+  object-position: center 50%;
 }
 
 .hero__frame--accent {
@@ -213,7 +213,7 @@ img {
 }
 
 .hero__frame--accent img {
-  object-position: center 24%;
+  object-position: center 62%;
 }
 
 .hero__visual-mark {
@@ -432,9 +432,32 @@ img {
   text-transform: uppercase;
 }
 
-.project-rail__footer span:first-child::after {
-  content: "  →";
+.project-rail__controls {
+  display: flex;
+  gap: 8px;
+}
+
+.project-rail__controls button {
+  display: grid;
+  width: 46px;
+  height: 42px;
+  padding: 0;
+  place-items: center;
   color: var(--ink);
+  background: transparent;
+  border: 1px solid var(--line);
+  cursor: pointer;
+  font: inherit;
+  font-size: 16px;
+  transition: color 180ms ease, background 180ms ease, border-color 180ms ease;
+}
+
+.project-rail__controls button:hover,
+.project-rail__controls button:focus-visible {
+  color: var(--ink);
+  background: var(--yellow);
+  border-color: var(--yellow);
+  outline: none;
 }
 
 .services {
@@ -482,10 +505,15 @@ img {
 }
 
 .service h3 {
-  margin: 88px 0 24px;
-  font-size: clamp(36px, 4vw, 56px);
+  display: flex;
+  align-items: flex-end;
+  min-height: 1.1em;
+  margin: 76px 0 24px;
+  font-size: clamp(28px, 2.9vw, 44px);
   font-weight: 450;
+  line-height: 1;
   letter-spacing: -0.055em;
+  white-space: nowrap;
 }
 
 .service p {

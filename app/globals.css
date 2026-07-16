@@ -193,27 +193,13 @@ img {
   text-transform: uppercase;
 }
 
-.hero__frame--main {
-  top: 0;
-  right: 0;
-  width: 79%;
-  height: 88%;
+.hero__frame--single {
+  inset: 0 0 0 auto;
+  width: 90%;
 }
 
-.hero__frame--main img {
-  object-position: center 50%;
-}
-
-.hero__frame--accent {
-  bottom: 0;
-  left: 0;
-  width: 43%;
-  aspect-ratio: 3 / 4;
-  border: 8px solid #0b0b09;
-}
-
-.hero__frame--accent img {
-  object-position: center 62%;
+.hero__frame--single img {
+  object-position: center 64%;
 }
 
 .hero__visual-mark {
@@ -923,14 +909,8 @@ blockquote footer span {
     height: 500px;
   }
 
-  .hero__frame--main {
-    width: 80%;
-    height: 88%;
-  }
-
-  .hero__frame--accent {
-    width: 44%;
-    border-width: 6px;
+  .hero__frame--single {
+    width: 100%;
   }
 
   .hero__visual-mark {

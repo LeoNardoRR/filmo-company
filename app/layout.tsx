@@ -18,9 +18,9 @@ export const metadata: Metadata = {
   description:
     "Filmes, fotografia e conteúdo audiovisual para marcas, eventos e histórias que merecem ser lembradas.",
   icons: {
-    icon: "/favicon.png",
-    shortcut: "/favicon.png",
-    apple: "/favicon.png",
+    icon: [{ url: "/favicon.png?v=filmo-o", type: "image/png", sizes: "320x320" }],
+    shortcut: "/favicon.png?v=filmo-o",
+    apple: "/favicon.png?v=filmo-o",
   },
   openGraph: {
     title: "Filmo Company | Histórias reais, imagens com intenção",

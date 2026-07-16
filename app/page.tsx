@@ -121,22 +121,13 @@ export default function Home() {
             </div>
           </div>
           <div className="hero__visual" aria-label="Retratos de projetos para marcas e momentos">
-            <figure className="hero__frame hero__frame--main">
-              <Image
-                src="/images/project-corporate.jpg"
-                alt="Fotografia gastronômica produzida pela Filmo Company"
-                fill
-                sizes="(max-width: 760px) 78vw, 40vw"
-                priority
-              />
-              <figcaption>Gastronomia</figcaption>
-            </figure>
-            <figure className="hero__frame hero__frame--accent">
+            <figure className="hero__frame hero__frame--single">
               <Image
                 src="/images/project-couple.jpg"
                 alt="Ensaio pré-wedding produzido pela Filmo Company"
                 fill
-                sizes="(max-width: 760px) 42vw, 20vw"
+                sizes="(max-width: 760px) 100vw, 46vw"
+                priority
               />
               <figcaption>Pré-wedding</figcaption>
             </figure>

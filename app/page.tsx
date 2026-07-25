@@ -75,14 +75,6 @@ function HeroVisual({ mobile = false }: { mobile?: boolean }) {
           priority
         />
       </figure>
-      <figure className="hero__frame hero__frame--secondary">
-        <Image
-          src="/images/project-food.jpg"
-          alt=""
-          fill
-          sizes={mobile ? "38vw" : "18vw"}
-        />
-      </figure>
       <div className="hero__format-label">
         <span>01</span>
         <strong>FOTO + VÍDEO</strong>
@@ -95,6 +87,7 @@ function HeroVisual({ mobile = false }: { mobile?: boolean }) {
 
 export default function Home() {
   const projectRail = useRef<HTMLDivElement>(null);
+  const mobileMenu = useRef<HTMLDetailsElement>(null);
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -132,6 +125,10 @@ export default function Home() {
     rail.scrollBy({ left: direction * (cardWidth + 18), behavior: "smooth" });
   }
 
+  function closeMobileMenu() {
+    mobileMenu.current?.removeAttribute("open");
+  }
+
   return (
     <main>
       <header className="site-header">
@@ -150,13 +147,24 @@ export default function Home() {
           Iniciar um projeto <span aria-hidden="true">↗</span>
         </a>
 
-        <details className="mobile-menu">
-          <summary aria-label="Abrir menu">Menu</summary>
+        <details className="mobile-menu" ref={mobileMenu}>
+          <summary aria-label="Abrir menu de navegação">
+            <span className="mobile-menu__label">Menu</span>
+            <span className="mobile-menu__icon" aria-hidden="true"><i /><i /></span>
+          </summary>
           <nav aria-label="Navegação mobile">
-            <a href="#trabalhos">Trabalhos</a>
-            <a href="#servicos">Serviços</a>
-            <a href="#sobre">Sobre</a>
-            <a href="#contato">Contato</a>
+            <div className="mobile-menu__top">
+              <span>Navegação</span>
+              <b>FILMO / 2026</b>
+            </div>
+            <a href="#trabalhos" onClick={closeMobileMenu}><span>01</span><strong>Trabalhos</strong><i>↘</i></a>
+            <a href="#servicos" onClick={closeMobileMenu}><span>02</span><strong>Serviços</strong><i>↘</i></a>
+            <a href="#sobre" onClick={closeMobileMenu}><span>03</span><strong>Sobre</strong><i>↘</i></a>
+            <a href="#contato" onClick={closeMobileMenu}><span>04</span><strong>Contato</strong><i>↘</i></a>
+            <a className="mobile-menu__cta" href={whatsapp} target="_blank" rel="noreferrer" onClick={closeMobileMenu}>
+              <span>Tem uma ideia?</span>
+              <strong>Solicitar orçamento ↗</strong>
+            </a>
           </nav>
         </details>
       </header>

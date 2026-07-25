@@ -15,12 +15,12 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://filmocompany.com.br"),
-  title: "Filmo Company | Vídeos para Instagram em Americana, SP",
+  title: "Filmo Company | Foto e vídeo para Instagram em Americana, SP",
   description:
-    "Reels, vídeos verticais e conteúdo para Instagram criado para marcas, profissionais e eventos em Americana, SP.",
+    "Fotografia, Reels e vídeos verticais para marcas, profissionais e eventos em Americana, SP.",
   openGraph: {
     title: "Filmo Company | Conteúdo que faz sua marca parar o scroll",
-    description: "Reels, campanhas e vídeos verticais para marcas, profissionais e eventos em Americana, SP.",
+    description: "Fotografia, Reels e vídeos verticais para marcas, profissionais e eventos em Americana, SP.",
     type: "website",
     locale: "pt_BR",
     images: [
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Filmo Company | Conteúdo que faz sua marca parar o scroll",
-    description: "Reels, campanhas e vídeos verticais para marcas, profissionais e eventos em Americana, SP.",
+    description: "Fotografia, Reels e vídeos verticais para marcas, profissionais e eventos em Americana, SP.",
     images: ["/og.png"],
   },
 };

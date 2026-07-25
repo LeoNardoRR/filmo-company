@@ -25,31 +25,25 @@ const projects = [
   {
     title: "Retrato corporativo",
     category: "Marcas",
-    image: "/images/project-corporate.jpg",
+    image: "/images/project-food.jpg",
   },
   {
     title: "Fotografia gastronômica",
     category: "Gastronomia",
-    image: "/images/project-food.jpg",
+    image: "/images/project-corporate.jpg",
   },
-];
-
-const heroFrames = [
-  "/images/project-couple.jpg",
-  "/images/project-wedding.jpg",
-  "/images/project-civil.jpg",
 ];
 
 const services = [
   {
     number: "01",
-    title: "Reels & social",
-    text: "Vídeos verticais, Reels e Stories pensados para prender atenção e manter sua presença no Instagram em movimento.",
+    title: "Foto & vídeo social",
+    text: "Fotos, Reels e Stories criados juntos para manter seu Instagram bonito, coerente e sempre em movimento.",
   },
   {
     number: "02",
-    title: "Marcas & negócios",
-    text: "Conteúdo para produtos, serviços e profissionais que precisam comunicar valor com imagem, ritmo e intenção.",
+    title: "Marcas & profissionais",
+    text: "Retratos, produtos e conteúdo para quem precisa comunicar valor com imagem, ritmo e intenção.",
   },
   {
     number: "03",
@@ -64,6 +58,40 @@ const process = [
   ["03", "Produção", "Organizamos equipe, captação e todos os detalhes do dia de filmagem."],
   ["04", "Finalização", "Editamos, refinamos som e cor e entregamos o material pronto para circular."],
 ];
+
+function HeroVisual({ mobile = false }: { mobile?: boolean }) {
+  return (
+    <div
+      className={`hero__visual ${mobile ? "hero__visual--mobile" : "hero__visual--desktop"}`}
+      aria-hidden={mobile ? "true" : undefined}
+      aria-label={mobile ? undefined : "Fotografias produzidas pela Filmo Company"}
+    >
+      <figure className="hero__frame hero__frame--primary">
+        <Image
+          src="/images/project-couple.jpg"
+          alt=""
+          fill
+          sizes={mobile ? "calc(100vw - 32px)" : "38vw"}
+          priority
+        />
+      </figure>
+      <figure className="hero__frame hero__frame--secondary">
+        <Image
+          src="/images/project-food.jpg"
+          alt=""
+          fill
+          sizes={mobile ? "38vw" : "18vw"}
+        />
+      </figure>
+      <div className="hero__format-label">
+        <span>01</span>
+        <strong>FOTO + VÍDEO</strong>
+        <small>CONTEÚDO PARA INSTAGRAM</small>
+      </div>
+      <span className="hero__visual-mark">FILMO / OLHAR EM MOVIMENTO</span>
+    </div>
+  );
+}
 
 export default function Home() {
   const projectRail = useRef<HTMLDivElement>(null);
@@ -136,20 +164,13 @@ export default function Home() {
       <section className="hero" id="inicio">
         <div className="hero__content shell">
           <div className="hero__copy">
-            <p className="eyebrow">Vídeos para Instagram · Americana, SP</p>
+            <p className="eyebrow">Foto + vídeo para Instagram · Americana, SP</p>
             <h1>
               Conteúdo que faz sua marca <em>parar o scroll.</em>
             </h1>
-            <div className="hero__visual hero__visual--mobile" aria-hidden="true">
-              {heroFrames.map((image) => (
-                <figure className="hero__frame hero__frame--reel" key={`mobile-${image}`}>
-                  <Image src={image} alt="" fill sizes="calc(100vw - 32px)" />
-                </figure>
-              ))}
-              <div className="hero__reel-meta"><span>● REC</span><span>REELS · STORIES · CAMPANHAS</span></div>
-            </div>
+            <HeroVisual mobile />
             <p>
-              Da ideia à edição, criamos Reels, campanhas e vídeos verticais para marcas, profissionais e eventos que querem aparecer com intenção.
+              Criamos fotos, Reels e vídeos verticais para marcas, profissionais e eventos que querem aparecer no Instagram com intenção.
             </p>
             <div className="weekend-note">
               <span aria-hidden="true">●</span>
@@ -164,21 +185,7 @@ export default function Home() {
               </a>
             </div>
           </div>
-          <div className="hero__visual hero__visual--desktop" aria-label="Sequência de trabalhos produzidos pela Filmo Company">
-            {heroFrames.map((image, index) => (
-              <figure className="hero__frame hero__frame--reel" key={image}>
-                <Image
-                  src={image}
-                  alt=""
-                  fill
-                  sizes="46vw"
-                  priority={index === 0}
-                />
-              </figure>
-            ))}
-            <div className="hero__reel-meta" aria-hidden="true"><span>● REC</span><span>REELS · STORIES · CAMPANHAS</span></div>
-            <span className="hero__visual-mark" aria-hidden="true">FILMO / CONTEÚDO EM MOVIMENTO</span>
-          </div>
+          <HeroVisual />
         </div>
         <div className="hero__index" aria-hidden="true">
           <span>FILMO / 2026</span>
@@ -188,7 +195,7 @@ export default function Home() {
 
       <section className="marquee" aria-label="Especialidades">
         <div>
-          <span>Reels</span><b>✦</b><span>Vídeos verticais</span><b>✦</b><span>Conteúdo para marcas</span><b>✦</b><span>Eventos</span><b>✦</b><span>Stories</span><b>✦</b><span>Reels</span>
+          <span>Fotografia</span><b>✦</b><span>Reels</span><b>✦</b><span>Vídeos verticais</span><b>✦</b><span>Conteúdo para marcas</span><b>✦</b><span>Eventos</span><b>✦</b><span>Fotografia</span>
         </div>
       </section>
 
@@ -196,7 +203,7 @@ export default function Home() {
         <div className="section-heading" data-reveal>
           <div>
             <p className="eyebrow">Trabalhos selecionados</p>
-            <h2>Frames que carregam intenção.</h2>
+            <h2>Fotos que mostram nosso olhar.</h2>
           </div>
           <p className="section-heading__note">
             Uma seleção de imagens que traduz nosso cuidado com enquadramento, direção e narrativa.
@@ -239,7 +246,7 @@ export default function Home() {
           <div className="section-heading section-heading--light" data-reveal>
             <div>
               <p className="eyebrow">O que fazemos</p>
-              <h2>Vídeos pensados para o feed real.</h2>
+            <h2>Foto e vídeo para o feed real.</h2>
             </div>
             <p className="section-heading__note">Conteúdo curto, estratégico e visualmente forte para marcas, profissionais e momentos.</p>
           </div>
@@ -275,12 +282,12 @@ export default function Home() {
         </div>
         <div className="about__copy" data-reveal>
           <p className="eyebrow">Sobre a Filmo</p>
-          <h2>Ideias em movimento. Conteúdo com intenção.</h2>
+          <h2>Imagem com intenção, em foto e vídeo.</h2>
           <p className="about__lead">
-            A Filmo transforma ideias, negócios e momentos em vídeos feitos para comunicar rápido e permanecer na memória.
+            A Filmo transforma ideias, negócios e momentos em conteúdo visual feito para comunicar rápido e permanecer na memória.
           </p>
           <p>
-            Criamos conteúdo para Instagram com direção, captação e edição cuidadosas. Cada projeto começa pela escuta e termina pronto para circular no formato certo.
+            Criamos fotos e vídeos para Instagram com direção, captação e edição cuidadosas. Cada projeto começa pela escuta e termina pronto para circular no formato certo.
           </p>
           <a className="text-link" href={whatsapp} target="_blank" rel="noreferrer">
             Conte sua ideia <span aria-hidden="true">↗</span>

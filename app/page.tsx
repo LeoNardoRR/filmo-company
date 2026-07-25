@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
 const whatsapp =
   "https://wa.me/5519988509636?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Filmo%20Company%20e%20gostaria%20de%20conversar%20sobre%20um%20projeto.";
@@ -25,30 +25,36 @@ const projects = [
   {
     title: "Retrato corporativo",
     category: "Marcas",
-    image: "/images/project-food.jpg",
+    image: "/images/project-corporate.jpg",
   },
   {
     title: "Fotografia gastronômica",
     category: "Gastronomia",
-    image: "/images/project-corporate.jpg",
+    image: "/images/project-food.jpg",
   },
+];
+
+const heroFrames = [
+  "/images/project-couple.jpg",
+  "/images/project-wedding.jpg",
+  "/images/project-civil.jpg",
 ];
 
 const services = [
   {
     number: "01",
-    title: "Marcas",
-    text: "Filmes institucionais, campanhas e histórias de marca que traduzem estratégia em imagem, ritmo e emoção.",
+    title: "Reels & social",
+    text: "Vídeos verticais, Reels e Stories pensados para prender atenção e manter sua presença no Instagram em movimento.",
   },
   {
     number: "02",
-    title: "Eventos",
-    text: "Casamentos, celebrações e encontros corporativos registrados com presença, sensibilidade e olhar documental.",
+    title: "Marcas & negócios",
+    text: "Conteúdo para produtos, serviços e profissionais que precisam comunicar valor com imagem, ritmo e intenção.",
   },
   {
     number: "03",
-    title: "Conteúdo digital",
-    text: "Vídeos e fotografias pensados para redes sociais, com linguagem atual e consistência para sua marca aparecer melhor.",
+    title: "Eventos & histórias",
+    text: "Momentos reais transformados em vídeos curtos, registros sensíveis e conteúdo pronto para compartilhar.",
   },
 ];
 
@@ -61,6 +67,32 @@ const process = [
 
 export default function Home() {
   const projectRail = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const root = document.documentElement;
+    const elements = document.querySelectorAll<HTMLElement>("[data-reveal]");
+    root.classList.add("motion-ready");
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.14, rootMargin: "0px 0px -6% 0px" },
+    );
+
+    elements.forEach((element) => observer.observe(element));
+
+    return () => {
+      observer.disconnect();
+      root.classList.remove("motion-ready");
+    };
+  }, []);
 
   function scrollProjects(direction: -1 | 1) {
     const rail = projectRail.current;
@@ -104,12 +136,20 @@ export default function Home() {
       <section className="hero" id="inicio">
         <div className="hero__content shell">
           <div className="hero__copy">
-            <p className="eyebrow">Produtora audiovisual · Americana, SP</p>
+            <p className="eyebrow">Vídeos para Instagram · Americana, SP</p>
             <h1>
-              Filmes que transformam <em>marcas e momentos</em> em histórias memoráveis.
+              Conteúdo que faz sua marca <em>parar o scroll.</em>
             </h1>
+            <div className="hero__visual hero__visual--mobile" aria-hidden="true">
+              {heroFrames.map((image) => (
+                <figure className="hero__frame hero__frame--reel" key={`mobile-${image}`}>
+                  <Image src={image} alt="" fill sizes="calc(100vw - 32px)" />
+                </figure>
+              ))}
+              <div className="hero__reel-meta"><span>● REC</span><span>REELS · STORIES · CAMPANHAS</span></div>
+            </div>
             <p>
-              Da primeira ideia à entrega final, criamos filmes e fotografias que aproximam pessoas e dão forma ao que merece ser lembrado.
+              Da ideia à edição, criamos Reels, campanhas e vídeos verticais para marcas, profissionais e eventos que querem aparecer com intenção.
             </p>
             <div className="weekend-note">
               <span aria-hidden="true">●</span>
@@ -117,24 +157,27 @@ export default function Home() {
             </div>
             <div className="hero__actions">
               <a className="button button--primary" href="#trabalhos">
-                Conheça os trabalhos
+                Veja nosso olhar
               </a>
               <a className="button button--ghost" href={whatsapp} target="_blank" rel="noreferrer">
                 Solicite um orçamento
               </a>
             </div>
           </div>
-          <div className="hero__visual" aria-label="Ensaio pré-wedding produzido pela Filmo Company">
-            <figure className="hero__frame hero__frame--single">
-              <Image
-                src="/images/project-couple.jpg"
-                alt="Ensaio pré-wedding produzido pela Filmo Company"
-                fill
-                sizes="(max-width: 760px) 100vw, 46vw"
-                priority
-              />
-            </figure>
-            <span className="hero__visual-mark" aria-hidden="true">FILMO / OLHAR AUTORAL</span>
+          <div className="hero__visual hero__visual--desktop" aria-label="Sequência de trabalhos produzidos pela Filmo Company">
+            {heroFrames.map((image, index) => (
+              <figure className="hero__frame hero__frame--reel" key={image}>
+                <Image
+                  src={image}
+                  alt=""
+                  fill
+                  sizes="46vw"
+                  priority={index === 0}
+                />
+              </figure>
+            ))}
+            <div className="hero__reel-meta" aria-hidden="true"><span>● REC</span><span>REELS · STORIES · CAMPANHAS</span></div>
+            <span className="hero__visual-mark" aria-hidden="true">FILMO / CONTEÚDO EM MOVIMENTO</span>
           </div>
         </div>
         <div className="hero__index" aria-hidden="true">
@@ -145,24 +188,24 @@ export default function Home() {
 
       <section className="marquee" aria-label="Especialidades">
         <div>
-          <span>Filmes de marca</span><b>✦</b><span>Eventos</span><b>✦</b><span>Conteúdo digital</span><b>✦</b><span>Fotografia</span><b>✦</b><span>Filmes de marca</span>
+          <span>Reels</span><b>✦</b><span>Vídeos verticais</span><b>✦</b><span>Conteúdo para marcas</span><b>✦</b><span>Eventos</span><b>✦</b><span>Stories</span><b>✦</b><span>Reels</span>
         </div>
       </section>
 
       <section className="work section shell" id="trabalhos">
-        <div className="section-heading">
+        <div className="section-heading" data-reveal>
           <div>
             <p className="eyebrow">Trabalhos selecionados</p>
-            <h2>Histórias vistas pelo nosso olhar.</h2>
+            <h2>Frames que carregam intenção.</h2>
           </div>
           <p className="section-heading__note">
-            Uma seleção de histórias que registramos para casamentos, empresas e marcas.
+            Uma seleção de imagens que traduz nosso cuidado com enquadramento, direção e narrativa.
           </p>
         </div>
 
         <div className="project-rail" ref={projectRail} aria-label="Galeria de trabalhos selecionados">
           {projects.map((project, index) => (
-            <article className="project" key={project.title}>
+            <article className="project" key={project.title} data-reveal>
               <Image
                 src={project.image}
                 alt={project.title}
@@ -193,17 +236,17 @@ export default function Home() {
 
       <section className="services section" id="servicos">
         <div className="shell">
-          <div className="section-heading section-heading--light">
+          <div className="section-heading section-heading--light" data-reveal>
             <div>
               <p className="eyebrow">O que fazemos</p>
-              <h2>Produção feita para conectar.</h2>
+              <h2>Vídeos pensados para o feed real.</h2>
             </div>
-            <p className="section-heading__note">Três frentes, uma mesma atenção à narrativa, à estética e ao resultado.</p>
+            <p className="section-heading__note">Conteúdo curto, estratégico e visualmente forte para marcas, profissionais e momentos.</p>
           </div>
 
           <div className="service-list">
             {services.map((service) => (
-              <article className="service" key={service.number}>
+              <article className="service" key={service.number} data-reveal>
                 <span>{service.number}</span>
                 <h3>{service.title}</h3>
                 <p>{service.text}</p>
@@ -217,7 +260,7 @@ export default function Home() {
       </section>
 
       <section className="about section shell" id="sobre">
-        <div className="about__image-wrap">
+        <div className="about__image-wrap" data-reveal>
           <Image
             className="about__image"
             src="/images/team.jpg"
@@ -230,14 +273,14 @@ export default function Home() {
             <span>AMERICANA · SP</span>
           </div>
         </div>
-        <div className="about__copy">
+        <div className="about__copy" data-reveal>
           <p className="eyebrow">Sobre a Filmo</p>
-          <h2>Histórias reais. Imagens com intenção.</h2>
+          <h2>Ideias em movimento. Conteúdo com intenção.</h2>
           <p className="about__lead">
-            A Filmo Company nasceu da vontade de contar histórias através das lentes, com técnica, sensibilidade e proximidade em cada etapa.
+            A Filmo transforma ideias, negócios e momentos em vídeos feitos para comunicar rápido e permanecer na memória.
           </p>
           <p>
-            Criamos produções para empresas, marcas e eventos sociais. Cada projeto começa pela escuta e termina com um material que parece verdadeiro para quem viveu e relevante para quem assiste.
+            Criamos conteúdo para Instagram com direção, captação e edição cuidadosas. Cada projeto começa pela escuta e termina pronto para circular no formato certo.
           </p>
           <a className="text-link" href={whatsapp} target="_blank" rel="noreferrer">
             Conte sua ideia <span aria-hidden="true">↗</span>
@@ -246,15 +289,15 @@ export default function Home() {
       </section>
 
       <section className="process section shell">
-        <div className="section-heading">
+        <div className="section-heading" data-reveal>
           <div>
             <p className="eyebrow">Nosso processo</p>
-            <h2>Clareza do briefing à entrega.</h2>
+            <h2>Da ideia ao post.</h2>
           </div>
         </div>
         <div className="process-grid">
           {process.map(([number, title, text]) => (
-            <article className="process-step" key={number}>
+            <article className="process-step" key={number} data-reveal>
               <span>{number}</span>
               <h3>{title}</h3>
               <p>{text}</p>
@@ -267,11 +310,11 @@ export default function Home() {
         <div className="shell">
           <p className="eyebrow">Quem já viveu essa experiência</p>
           <div className="quote-grid">
-            <blockquote>
+            <blockquote data-reveal>
               <p>“Cada foto transmite perfeitamente a emoção e a essência desses momentos tão especiais.”</p>
               <footer>Fabrício &amp; Andressa <span>· Casamento</span></footer>
             </blockquote>
-            <blockquote>
+            <blockquote data-reveal>
               <p>“Eles entendem o que a marca quer dizer e entregam muito mais do que se espera.”</p>
               <footer>Diego Augusto <span>· Marketing, MKData</span></footer>
             </blockquote>
@@ -280,7 +323,7 @@ export default function Home() {
       </section>
 
       <section className="contact section shell" id="contato">
-        <div className="contact__card">
+        <div className="contact__card" data-reveal>
           <p className="eyebrow">Vamos criar juntos?</p>
           <h2>Tem uma história que merece ser vista?</h2>
           <p>Conte brevemente o que você imagina. A gente responde com os próximos passos e um orçamento sob medida.</p>
@@ -288,7 +331,7 @@ export default function Home() {
             Falar no WhatsApp <span aria-hidden="true">↗</span>
           </a>
         </div>
-        <div className="contact__details">
+        <div className="contact__details" data-reveal>
           <div>
             <span>E-mail</span>
             <a href="mailto:filmocompany@gmail.com">filmocompany@gmail.com</a>

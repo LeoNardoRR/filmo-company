@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import AnimatedFavicon from "./animated-favicon";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -43,10 +44,13 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="pt-BR">
       <head>
-        <link rel="icon" href="/filmo-o.png" type="image/png" sizes="320x320" />
-        <link rel="shortcut icon" href="/filmo-o.png" type="image/png" />
+        <link data-filmo-favicon="true" rel="icon" href="/filmo-o.png" type="image/png" sizes="64x64" />
+        <link data-filmo-favicon="true" rel="shortcut icon" href="/filmo-o.png" type="image/png" />
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>{children}</body>
+      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+        <AnimatedFavicon />
+        {children}
+      </body>
     </html>
   );
 }

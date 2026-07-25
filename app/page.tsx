@@ -6,6 +6,9 @@ import { useRef } from "react";
 const whatsapp =
   "https://wa.me/5519988509636?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Filmo%20Company%20e%20gostaria%20de%20conversar%20sobre%20um%20projeto.";
 
+const scheduleWhatsapp =
+  "https://wa.me/5519988509636?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Filmo%20Company%20e%20gostaria%20de%20consultar%20os%20hor%C3%A1rios%20dispon%C3%ADveis%20para%20um%20final%20de%20semana.";
+
 const projects = [
   {
     title: "Retrato de noiva",
@@ -83,6 +86,7 @@ export default function Home() {
           <a href="#trabalhos">Trabalhos</a>
           <a href="#servicos">Serviços</a>
           <a href="#sobre">Sobre</a>
+          <a href="#agenda">Agenda</a>
           <a href="#contato">Contato</a>
         </nav>
 
@@ -96,6 +100,7 @@ export default function Home() {
             <a href="#trabalhos">Trabalhos</a>
             <a href="#servicos">Serviços</a>
             <a href="#sobre">Sobre</a>
+            <a href="#agenda">Agenda</a>
             <a href="#contato">Contato</a>
           </nav>
         </details>
@@ -111,6 +116,10 @@ export default function Home() {
             <p>
               Da primeira ideia à entrega final, criamos filmes e fotografias que aproximam pessoas e dão forma ao que merece ser lembrado.
             </p>
+            <div className="weekend-note">
+              <span aria-hidden="true">●</span>
+              Produções exclusivamente aos sábados e domingos
+            </div>
             <div className="hero__actions">
               <a className="button button--primary" href="#trabalhos">
                 Conheça os trabalhos
@@ -271,6 +280,35 @@ export default function Home() {
               <p>“Eles entendem o que a marca quer dizer e entregam muito mais do que se espera.”</p>
               <footer>Diego Augusto <span>· Marketing, MKData</span></footer>
             </blockquote>
+          </div>
+        </div>
+      </section>
+
+      <section className="schedule section shell" id="agenda">
+        <div className="schedule__intro">
+          <p className="eyebrow">Agenda de produções</p>
+          <h2>Seu projeto cabe no próximo final de semana?</h2>
+          <p>
+            A Filmo realiza captações exclusivamente aos sábados e domingos. Consulte a agenda antes de definir a data do seu evento, ensaio ou produção.
+          </p>
+          <a className="button button--primary" href={scheduleWhatsapp} target="_blank" rel="noreferrer">
+            Consultar horários <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+        <div className="schedule__week">
+          <p>Quando produzimos</p>
+          <div className="schedule__day">
+            <span>SÁB</span>
+            <strong>Sábado</strong>
+            <small>Horários sob consulta</small>
+          </div>
+          <div className="schedule__day">
+            <span>DOM</span>
+            <strong>Domingo</strong>
+            <small>Horários sob consulta</small>
+          </div>
+          <div className="schedule__closed">
+            Segunda a sexta <span>Sem atendimento</span>
           </div>
         </div>
       </section>

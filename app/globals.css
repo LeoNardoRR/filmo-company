@@ -693,99 +693,6 @@ blockquote footer span {
   color: rgba(255, 255, 255, 0.45);
 }
 
-.schedule {
-  display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(360px, 0.85fr);
-  gap: clamp(60px, 9vw, 140px);
-  align-items: center;
-  border-bottom: 1px solid var(--line);
-}
-
-.schedule__intro h2 {
-  max-width: 780px;
-  margin: 0;
-  font-size: clamp(44px, 5.5vw, 78px);
-  font-weight: 440;
-  line-height: 1;
-  letter-spacing: -0.055em;
-}
-
-.schedule__intro > p:not(.eyebrow) {
-  max-width: 650px;
-  margin: 34px 0;
-  color: #5e5c56;
-  font-size: 16px;
-  line-height: 1.7;
-}
-
-.schedule__week {
-  padding: 34px;
-  color: white;
-  background: var(--ink);
-}
-
-.schedule__week > p {
-  margin: 0 0 24px;
-  color: var(--yellow);
-  font-family: var(--font-geist-mono), monospace;
-  font-size: 9px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
-.schedule__day {
-  display: grid;
-  grid-template-columns: 58px 1fr auto;
-  align-items: center;
-  gap: 18px;
-  padding: 28px 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.16);
-}
-
-.schedule__day > span {
-  display: grid;
-  width: 48px;
-  height: 48px;
-  place-items: center;
-  color: var(--ink);
-  background: var(--yellow);
-  border-radius: 50%;
-  font-family: var(--font-geist-mono), monospace;
-  font-size: 9px;
-  font-weight: 700;
-}
-
-.schedule__day strong {
-  font-size: 22px;
-  font-weight: 480;
-  letter-spacing: -0.03em;
-}
-
-.schedule__day small {
-  color: rgba(255, 255, 255, 0.48);
-  font-family: var(--font-geist-mono), monospace;
-  font-size: 8px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.schedule__closed {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-  padding-top: 22px;
-  color: rgba(255, 255, 255, 0.45);
-  font-family: var(--font-geist-mono), monospace;
-  font-size: 8px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.schedule__closed span {
-  color: rgba(255, 255, 255, 0.72);
-  text-align: right;
-}
-
 .contact {
   display: grid;
   grid-template-columns: minmax(0, 1.5fr) minmax(280px, 0.5fr);
@@ -875,10 +782,6 @@ blockquote footer span {
   .site-header {
     grid-template-columns: 1fr auto;
     padding-inline: 24px;
-  }
-
-  .schedule {
-    grid-template-columns: 1fr;
   }
 
   .desktop-nav,

@@ -76,6 +76,34 @@ export default function Home() {
 
         <CameraViewfinder />
 
+        <section className="section section--light" id="portfolio" aria-labelledby="portfolio-title">
+          <div className="shell">
+            <div className="section-head">
+              <div className="section-head__title">
+                <p className="eyebrow eyebrow--dot">Portfólio</p>
+                <h2 id="portfolio-title" className="display">
+                  Nosso trabalho <em>mora no Instagram.</em>
+                </h2>
+              </div>
+              <p className="section-head__note">
+                Enquadramento, direção e narrativa em cada post. Acompanhe o que a gente publica toda semana.
+              </p>
+            </div>
+            <a className="insta-card" href={instagram} target="_blank" rel="noreferrer">
+              <span className="insta-card__text">
+                <span className="insta-card__label">Portfólio ao vivo</span>
+                <span className="insta-card__handle">@filmocompany</span>
+                <span className="insta-card__note">
+                  Reels, ensaios, casamentos e bastidores, sempre atualizados. É lá que você vê nosso trabalho de verdade.
+                </span>
+              </span>
+              <span className="button button--yellow button--large">
+                Ver no Instagram <span aria-hidden="true">↗</span>
+              </span>
+            </a>
+          </div>
+        </section>
+
         {reels.length > 0 && (
           <section className="section section--dark" id="reels" aria-labelledby="reels-title">
             <div className="shell">

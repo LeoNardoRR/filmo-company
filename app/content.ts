@@ -11,11 +11,11 @@ export const whatsapp = whatsappLink(
 );
 
 export const projects = [
-  { title: "Retrato de noiva", category: "Casamento", image: "/images/project-wedding.jpg" },
-  { title: "Ensaio pré-wedding", category: "Casais", image: "/images/project-couple.jpg" },
-  { title: "Casamento civil", category: "Casamento", image: "/images/project-civil.jpg" },
-  { title: "Retrato corporativo", category: "Marcas", image: "/images/project-portrait.jpg" },
-  { title: "Fotografia gastronômica", category: "Gastronomia", image: "/images/project-food.jpg" },
+  { title: "Retrato de noiva", category: "Casamento" },
+  { title: "Ensaio pré-wedding", category: "Casais" },
+  { title: "Casamento civil", category: "Casamento" },
+  { title: "Retrato corporativo", category: "Marcas" },
+  { title: "Fotografia gastronômica", category: "Gastronomia" },
 ];
 
 /**

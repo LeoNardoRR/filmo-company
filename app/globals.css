@@ -433,6 +433,7 @@ video {
 .hero__copy {
   display: flex;
   flex: 1 1 520px;
+  max-width: 920px;
   flex-direction: column;
   gap: 28px;
   min-width: 0;
@@ -479,72 +480,6 @@ video {
   width: 6px;
   height: 6px;
   background: var(--yellow);
-}
-
-.hero__frames {
-  display: grid;
-  flex: 1 1 420px;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  align-items: start;
-  gap: 14px;
-  min-width: 0;
-}
-
-.hero-frame {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin: 0;
-}
-
-.hero-frame--1 {
-  margin-top: 56px;
-}
-
-.hero-frame--3 {
-  margin-top: 104px;
-}
-
-.hero-frame__image {
-  position: relative;
-  aspect-ratio: 9 / 16;
-  overflow: hidden;
-  background: #1a1a16;
-}
-
-.hero-frame__image.is-accent {
-  outline: 1px solid var(--yellow);
-  outline-offset: -1px;
-}
-
-.hero-frame figcaption {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--muted-dark);
-}
-
-.hero-frame__image img,
-.work__image img,
-.about__image img,
-.viewer__photo img {
-  object-fit: cover;
-}
-
-@media (max-width: 600px) {
-  .hero-frame--1 {
-    margin-top: 28px;
-  }
-
-  .hero-frame--3 {
-    margin-top: 52px;
-  }
-
-  .hero-frame figcaption {
-    font-size: 9.5px;
-    letter-spacing: 0.06em;
-  }
 }
 
 /* ---------- Faixa de especialidades ---------- */
@@ -637,6 +572,36 @@ video {
   inset: -18px;
   filter: blur(var(--blur, 0px));
   transition: filter 0.15s linear;
+}
+
+.viewer__card {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 48px;
+  background: #1d1d18;
+  text-align: center;
+}
+
+.viewer__card span {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted-dark);
+}
+
+.viewer__card strong {
+  font-family: var(--serif);
+  font-size: clamp(30px, 4vw, 48px);
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.04;
+  color: var(--paper);
 }
 
 .viewer__grid,
@@ -957,71 +922,6 @@ video {
   align-self: flex-start;
 }
 
-/* ---------- Trabalhos ---------- */
-
-.work-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 16px;
-}
-
-.work {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin: 0;
-}
-
-.work__image {
-  position: relative;
-  aspect-ratio: 3 / 4;
-  overflow: hidden;
-  background: var(--paper-soft);
-}
-
-@media (max-width: 600px) {
-  /* No celular a galeria rola para o lado, em vez de empilhar cinco fotos altas */
-  .work-grid {
-    grid-auto-flow: column;
-    grid-auto-columns: 78%;
-    grid-template-columns: none;
-    margin-inline: calc(var(--pad) * -1);
-    padding-inline: var(--pad);
-    overflow-x: auto;
-    scroll-padding-inline: var(--pad);
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-  }
-
-  .work-grid::-webkit-scrollbar {
-    display: none;
-  }
-
-  .work {
-    scroll-snap-align: start;
-  }
-}
-
-.work figcaption {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.work figcaption span {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #5c5a54;
-}
-
-.work figcaption strong {
-  font-size: 18px;
-  font-weight: 400;
-  letter-spacing: -0.01em;
-}
-
 /* ---------- Reels ---------- */
 
 .reel-grid {
@@ -1146,18 +1046,10 @@ video {
   gap: clamp(40px, 6vw, 88px);
 }
 
-.about__image {
-  position: relative;
-  flex: 1 1 400px;
-  aspect-ratio: 1 / 1;
-  min-width: 0;
-  overflow: hidden;
-  background: var(--paper-soft);
-}
-
 .about__copy {
   display: flex;
   flex: 1 1 460px;
+  max-width: 760px;
   flex-direction: column;
   gap: 22px;
   min-width: 0;

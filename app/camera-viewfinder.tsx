@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import type { CSSProperties, PointerEvent } from "react";
 import { useEffect, useRef, useState } from "react";
 import { projects, whatsapp } from "./content";
@@ -151,13 +150,10 @@ export default function CameraViewfinder() {
                 onPointerLeave={() => setAf({ x: 50, y: 50 })}
               >
                 <div className="viewer__photo">
-                  <Image
-                    key={project.image}
-                    src={project.image}
-                    alt={project.title}
-                    fill
-                    sizes="(max-width: 900px) 92vw, 640px"
-                  />
+                  <div className="viewer__card" key={project.title}>
+                    <span>{project.category}</span>
+                    <strong>{project.title}</strong>
+                  </div>
                 </div>
 
                 <div className="viewer__grid" aria-hidden="true">

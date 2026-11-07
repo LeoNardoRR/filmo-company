@@ -6,7 +6,6 @@ import {
   instagram,
   phone,
   processSteps,
-  projects,
   reels,
   services,
   testimonials,
@@ -17,17 +16,11 @@ import SiteHeader from "./site-header";
 
 const specialties = ["Fotografia", "Reels", "Vídeos verticais", "Conteúdo para marcas", "Eventos"];
 
-const heroFrames = [
-  { image: "/images/project-couple.jpg", label: "01 / Casais", alt: "Casal caminhando de mãos dadas em um ensaio pré-wedding", accent: false },
-  { image: "/images/project-wedding.jpg", label: "02 / Casamento", alt: "Retrato de noiva com buquê de lírios", accent: true },
-  { image: "/images/project-food.jpg", label: "03 / Gastronomia", alt: "Prato de massa com molho de tomate fotografado em luz baixa", accent: false },
-];
-
 const nav = [
-  { href: "#trabalhos", label: "Trabalhos" },
   ...(reels.length ? [{ href: "#reels", label: "Reels" }] : []),
   { href: "#servicos", label: "Serviços" },
   { href: "#processo", label: "Processo" },
+  { href: "#sobre", label: "Sobre" },
   { href: "#faq", label: "FAQ" },
 ];
 
@@ -52,8 +45,8 @@ export default function Home() {
                 <a className="button button--yellow button--large" href={whatsapp} target="_blank" rel="noreferrer">
                   Pedir orçamento no WhatsApp <span aria-hidden="true">↗</span>
                 </a>
-                <a className="button button--ghost button--large" href="#trabalhos">
-                  Ver trabalhos
+                <a className="button button--ghost button--large" href="#servicos">
+                  Ver serviços
                 </a>
               </div>
               <ul className="hero__facts">
@@ -63,22 +56,6 @@ export default function Home() {
               </ul>
             </div>
 
-            <div className="hero__frames">
-              {heroFrames.map((frame, index) => (
-                <figure className={`hero-frame hero-frame--${index + 1}`} key={frame.image}>
-                  <div className={`hero-frame__image${frame.accent ? " is-accent" : ""}`}>
-                    <Image
-                      src={frame.image}
-                      alt={frame.alt}
-                      fill
-                      sizes="(max-width: 900px) 30vw, 14vw"
-                      priority
-                    />
-                  </div>
-                  <figcaption>{frame.label}</figcaption>
-                </figure>
-              ))}
-            </div>
           </div>
         </section>
 
@@ -98,46 +75,6 @@ export default function Home() {
         </section>
 
         <CameraViewfinder />
-
-        <section className="section section--light" id="trabalhos" aria-labelledby="trabalhos-title">
-          <div className="shell">
-            <div className="section-head">
-              <div className="section-head__title">
-                <p className="eyebrow eyebrow--dot">Trabalhos selecionados</p>
-                <h2 id="trabalhos-title" className="display">
-                  Fotos que mostram <em>nosso olhar.</em>
-                </h2>
-              </div>
-              <div className="section-head__note">
-                <p>Uma seleção de imagens que traduz nosso cuidado com enquadramento, direção e narrativa.</p>
-                <a className="link-underline" href={instagram} target="_blank" rel="noreferrer">
-                  Mais no Instagram @filmocompany <span aria-hidden="true">↗</span>
-                </a>
-              </div>
-            </div>
-
-            <div className="work-grid">
-              {projects.map((project, index) => (
-                <figure className="work" key={project.title}>
-                  <div className="work__image">
-                    <Image
-                      src={project.image}
-                      alt={project.title}
-                      fill
-                      sizes="(max-width: 600px) 90vw, (max-width: 1100px) 45vw, 20vw"
-                    />
-                  </div>
-                  <figcaption>
-                    <span>
-                      {String(index + 1).padStart(2, "0")} · {project.category}
-                    </span>
-                    <strong>{project.title}</strong>
-                  </figcaption>
-                </figure>
-              ))}
-            </div>
-          </div>
-        </section>
 
         {reels.length > 0 && (
           <section className="section section--dark" id="reels" aria-labelledby="reels-title">
@@ -232,14 +169,6 @@ export default function Home() {
 
         <section className="section section--light" id="sobre" aria-labelledby="sobre-title">
           <div className="shell about">
-            <div className="about__image">
-              <Image
-                src="/images/team.jpg"
-                alt="Equipe audiovisual em produção"
-                fill
-                sizes="(max-width: 900px) 100vw, 46vw"
-              />
-            </div>
             <div className="about__copy">
               <p className="eyebrow eyebrow--dot">Sobre a Filmo</p>
               <h2 id="sobre-title" className="display display--medium">

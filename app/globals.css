@@ -1324,3 +1324,55 @@ video {
     transition: none;
   }
 }
+
+/* Cartão que leva ao Instagram (seção Portfólio) */
+.insta-card {
+  margin-top: 56px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px 48px;
+  padding: clamp(28px, 4vw, 56px);
+  background: var(--ink);
+  color: var(--paper);
+  text-decoration: none;
+}
+
+.insta-card__text {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+
+.insta-card__label {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted-dark);
+}
+
+.insta-card__handle {
+  font-size: clamp(34px, 5.6vw, 84px);
+  font-weight: 450;
+  line-height: 1;
+  letter-spacing: -0.045em;
+}
+
+.insta-card__note {
+  max-width: 46ch;
+  font-size: 17px;
+  line-height: 1.55;
+  color: #c9c7bf;
+}
+
+.insta-card:hover .button--yellow {
+  filter: brightness(1.08);
+}
+
+.insta-card:focus-visible {
+  outline: 2px solid var(--yellow);
+  outline-offset: 4px;
+}

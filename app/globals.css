@@ -1376,3 +1376,135 @@ video {
   outline: 2px solid var(--yellow);
   outline-offset: 4px;
 }
+
+/* Teste na sua foto */
+.lab {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 48px clamp(40px, 6vw, 88px);
+}
+
+.lab__copy {
+  flex: 1 1 420px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.lab__lead {
+  margin: 0;
+  max-width: 48ch;
+  font-size: 17px;
+  line-height: 1.55;
+  color: #c9c7bf;
+}
+
+.lab__upload {
+  align-self: flex-start;
+  position: relative;
+  cursor: pointer;
+}
+
+.lab__upload input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.lab__upload:focus-within {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
+.lab__error {
+  margin: 0;
+  color: #ffb4a8;
+  font-size: 15px;
+}
+
+.lab__controls {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.lab__controls.is-off {
+  opacity: 0.4;
+}
+
+.lab__label {
+  margin: 8px 0 0;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted-dark);
+}
+
+.lab__hint,
+.lab__fine {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--muted-dark);
+}
+
+.lab__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.lab__stage {
+  position: relative;
+  flex: 1 1 360px;
+  min-width: 0;
+  max-width: 560px;
+  aspect-ratio: 4 / 5;
+  background: #14140f;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  overflow: hidden;
+  touch-action: manipulation;
+  cursor: crosshair;
+}
+
+.lab__canvas,
+.lab__original {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.lab__canvas[hidden] {
+  display: none;
+}
+
+.lab__empty {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted-dark);
+}
+
+.lab__af {
+  position: absolute;
+  width: 56px;
+  height: 56px;
+  margin: -28px 0 0 -28px;
+  border: 1.5px solid var(--yellow);
+  pointer-events: none;
+}

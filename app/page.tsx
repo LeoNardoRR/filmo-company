@@ -1,5 +1,6 @@
 import Image from "next/image";
 import CameraViewfinder from "./camera-viewfinder";
+import PortraitLab from "./portrait-lab";
 import {
   email,
   faq,
@@ -75,6 +76,8 @@ export default function Home() {
         </section>
 
         <CameraViewfinder />
+
+        <PortraitLab />
 
         <section className="section section--light" id="portfolio" aria-labelledby="portfolio-title">
           <div className="shell">

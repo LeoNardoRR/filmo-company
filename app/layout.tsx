@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, IBM_Plex_Mono, Instrument_Serif } from "next/font/google";
 import AnimatedFavicon from "./animated-favicon";
 import "./globals.css";
 
@@ -8,9 +8,17 @@ const geistSans = Geist({
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const plexMono = IBM_Plex_Mono({
+  variable: "--font-plex-mono",
   subsets: ["latin"],
+  weight: ["400", "500"],
+});
+
+const instrumentSerif = Instrument_Serif({
+  variable: "--font-serif",
+  subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
 });
 
 export const metadata: Metadata = {
@@ -47,7 +55,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <link data-filmo-favicon="true" rel="icon" href="/filmo-o.png" type="image/png" sizes="64x64" />
         <link data-filmo-favicon="true" rel="shortcut icon" href="/filmo-o.png" type="image/png" />
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body className={`${geistSans.variable} ${plexMono.variable} ${instrumentSerif.variable}`}>
         <AnimatedFavicon />
         {children}
       </body>

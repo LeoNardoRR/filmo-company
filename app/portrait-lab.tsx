@@ -4,9 +4,10 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { whatsappLink } from "./content";
 
 // Prévia simulada: tudo acontece no navegador, a foto nunca é enviada a lugar nenhum.
-// Sem modelo de IA: o "fundo desfocado" usa uma máscara oval em volta do ponto de foco
-// (toque na imagem para mudar), o recorte fechado imita uma 50 mm e o tratamento de cor
-// e a vinheta dão o ar de foto de câmera profissional.
+// Um modelo de recorte de pessoa (MediaPipe, copiado em /public/mediapipe) separa a pessoa do
+// fundo; se ele não carregar, o desfoque usa uma máscara oval em volta do ponto de foco (toque
+// na imagem para mudar). O recorte fechado imita uma 50 mm e o tratamento de cor e a vinheta
+// dão o ar de foto de câmera profissional.
 
 const OUT_W = 1080;
 const OUT_H = 1350; // 4:5
@@ -17,6 +18,83 @@ const APERTURES: Aperture[] = [
   { id: "2.8", label: "f/2.8", blur: 9, focus: 0.4 },
   { id: "5.6", label: "f/5.6", blur: 4, focus: 0.52 },
 ];
+
+type SegmenterResults = { segmentationMask: CanvasImageSource };
+type Segmenter = {
+  setOptions(o: { modelSelection: number }): void;
+  onResults(cb: (r: SegmenterResults) => void): void;
+  send(i: { image: CanvasImageSource }): Promise<void>;
+};
+declare global {
+  interface Window {
+    SelfieSegmentation?: new (c: { locateFile: (f: string) => string }) => Segmenter;
+  }
+}
+
+let segmenterPromise: Promise<Segmenter> | null = null;
+function assetUrl(file: string) {
+  // Relativo à página, assim funciona na raiz do domínio e em /filmo-company/ (GitHub Pages).
+  return new URL(`mediapipe/${file}`, document.baseURI).href;
+}
+function getSegmenter() {
+  if (!segmenterPromise) {
+    segmenterPromise = new Promise<Segmenter>((resolve, reject) => {
+      const script = document.createElement("script");
+      script.src = assetUrl("selfie_segmentation.js");
+      script.onload = () => {
+        try {
+          const seg = new window.SelfieSegmentation!({ locateFile: assetUrl });
+          seg.setOptions({ modelSelection: 0 });
+          resolve(seg);
+        } catch (e) {
+          reject(e);
+        }
+      };
+      script.onerror = () => reject(new Error("modelo indisponível"));
+      document.head.appendChild(script);
+    });
+    segmenterPromise.catch(() => {
+      segmenterPromise = null;
+    });
+  }
+  return segmenterPromise;
+}
+
+async function segment(base: HTMLCanvasElement): Promise<HTMLCanvasElement> {
+  const seg = await getSegmenter();
+  const mask = await new Promise<HTMLCanvasElement>((resolve, reject) => {
+    const timer = window.setTimeout(() => reject(new Error("tempo esgotado")), 25000);
+    seg.onResults((r) => {
+      window.clearTimeout(timer);
+      const c = document.createElement("canvas");
+      c.width = OUT_W;
+      c.height = OUT_H;
+      c.getContext("2d")!.drawImage(r.segmentationMask, 0, 0, OUT_W, OUT_H);
+      resolve(c);
+    });
+    seg.send({ image: base }).catch(reject);
+  });
+  return mask;
+}
+
+function buildBase(img: HTMLImageElement) {
+  // Recorte 4:5 centralizado, um pouco fechado (efeito de 50 mm).
+  const zoom = 1.12;
+  const targetRatio = OUT_W / OUT_H;
+  let sw = img.naturalWidth;
+  let sh = img.naturalHeight;
+  if (sw / sh > targetRatio) sw = sh * targetRatio;
+  else sh = sw / targetRatio;
+  sw /= zoom;
+  sh /= zoom;
+  const sx = (img.naturalWidth - sw) / 2;
+  const sy = (img.naturalHeight - sh) / 2;
+  const base = document.createElement("canvas");
+  base.width = OUT_W;
+  base.height = OUT_H;
+  base.getContext("2d")!.drawImage(img, sx, sy, sw, sh, 0, 0, OUT_W, OUT_H);
+  return base;
+}
 
 function softBlur(src: HTMLCanvasElement, factor: number) {
   // Desfoque que funciona em qualquer navegador: reduz e amplia com suavização, em duas passadas.
@@ -42,7 +120,8 @@ function softBlur(src: HTMLCanvasElement, factor: number) {
 
 function render(
   canvas: HTMLCanvasElement,
-  img: HTMLImageElement,
+  base: HTMLCanvasElement,
+  mask: HTMLCanvasElement | null,
   ap: Aperture,
   fx: number,
   fy: number,
@@ -51,42 +130,38 @@ function render(
   canvas.height = OUT_H;
   const ctx = canvas.getContext("2d")!;
 
-  // Recorte 4:5 centralizado, um pouco fechado (efeito de 50 mm).
-  const zoom = 1.12;
-  const targetRatio = OUT_W / OUT_H;
-  let sw = img.naturalWidth;
-  let sh = img.naturalHeight;
-  if (sw / sh > targetRatio) sw = sh * targetRatio;
-  else sh = sw / targetRatio;
-  sw /= zoom;
-  sh /= zoom;
-  const sx = (img.naturalWidth - sw) / 2;
-  const sy = (img.naturalHeight - sh) / 2;
-
-  const base = document.createElement("canvas");
-  base.width = OUT_W;
-  base.height = OUT_H;
-  base.getContext("2d")!.drawImage(img, sx, sy, sw, sh, 0, 0, OUT_W, OUT_H);
-
-  // Camada desfocada, visível só fora da região de foco.
   const blurred = softBlur(base, ap.blur);
-  const bctx = blurred.getContext("2d")!;
-  bctx.globalCompositeOperation = "destination-in";
-  const cx = fx * OUT_W;
-  const cy = fy * OUT_H;
-  const radius = OUT_H * ap.focus;
-  bctx.save();
-  bctx.translate(cx, cy);
-  bctx.scale(0.78, 1); // oval em pé, mais natural para retratos
-  const grad = bctx.createRadialGradient(0, 0, radius * 0.45, 0, 0, radius * 1.15);
-  grad.addColorStop(0, "rgba(0,0,0,0)");
-  grad.addColorStop(1, "rgba(0,0,0,1)");
-  bctx.fillStyle = grad;
-  bctx.fillRect(-OUT_W * 2, -OUT_H * 2, OUT_W * 4, OUT_H * 4);
-  bctx.restore();
 
-  ctx.drawImage(base, 0, 0);
-  ctx.drawImage(blurred, 0, 0);
+  if (mask) {
+    // Pessoa nítida por cima do fundo desfocado.
+    const person = document.createElement("canvas");
+    person.width = OUT_W;
+    person.height = OUT_H;
+    const pctx = person.getContext("2d")!;
+    pctx.drawImage(softBlur(mask, 1.6), 0, 0);
+    pctx.globalCompositeOperation = "source-in";
+    pctx.drawImage(base, 0, 0);
+    ctx.drawImage(blurred, 0, 0);
+    ctx.drawImage(person, 0, 0);
+  } else {
+    // Sem recorte: desfoque só fora de uma região oval em volta do ponto de foco.
+    const bctx = blurred.getContext("2d")!;
+    bctx.globalCompositeOperation = "destination-in";
+    const cx = fx * OUT_W;
+    const cy = fy * OUT_H;
+    const radius = OUT_H * ap.focus;
+    bctx.save();
+    bctx.translate(cx, cy);
+    bctx.scale(0.78, 1); // oval em pé, mais natural para retratos
+    const grad = bctx.createRadialGradient(0, 0, radius * 0.45, 0, 0, radius * 1.15);
+    grad.addColorStop(0, "rgba(0,0,0,0)");
+    grad.addColorStop(1, "rgba(0,0,0,1)");
+    bctx.fillStyle = grad;
+    bctx.fillRect(-OUT_W * 2, -OUT_H * 2, OUT_W * 4, OUT_H * 4);
+    bctx.restore();
+    ctx.drawImage(base, 0, 0);
+    ctx.drawImage(blurred, 0, 0);
+  }
 
   // Vinheta suave.
   const vg = ctx.createRadialGradient(OUT_W / 2, OUT_H / 2, OUT_H * 0.45, OUT_W / 2, OUT_H / 2, OUT_H * 0.85);
@@ -121,21 +196,25 @@ function render(
 
 export default function PortraitLab() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const imgRef = useRef<HTMLImageElement | null>(null);
+  const baseRef = useRef<HTMLCanvasElement | null>(null);
+  const maskRef = useRef<HTMLCanvasElement | null>(null);
   const urlRef = useRef<string | null>(null);
   const [apertureId, setApertureId] = useState("1.8");
   const [focus, setFocus] = useState({ x: 0.5, y: 0.42 });
   const [original, setOriginal] = useState<string | null>(null);
   const [showOriginal, setShowOriginal] = useState(false);
   const [ready, setReady] = useState(false);
+  const [cutout, setCutout] = useState<"idle" | "loading" | "done" | "failed">("idle");
+  const [maskVersion, setMaskVersion] = useState(0);
   const [error, setError] = useState("");
 
   const aperture = APERTURES.find((a) => a.id === apertureId) ?? APERTURES[0];
 
   const draw = useCallback(() => {
-    if (!imgRef.current || !canvasRef.current) return;
-    render(canvasRef.current, imgRef.current, aperture, focus.x, focus.y);
-  }, [aperture, focus]);
+    if (!baseRef.current || !canvasRef.current) return;
+    render(canvasRef.current, baseRef.current, maskRef.current, aperture, focus.x, focus.y);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [aperture, focus, maskVersion]);
 
   useEffect(() => {
     if (ready) draw();
@@ -157,7 +236,20 @@ export default function PortraitLab() {
     urlRef.current = url;
     const img = new Image();
     img.onload = () => {
-      imgRef.current = img;
+      const base = buildBase(img);
+      baseRef.current = base;
+      maskRef.current = null;
+      setCutout("loading");
+      segment(base)
+        .then((mask) => {
+          if (baseRef.current !== base) return; // chegou uma foto mais nova
+          maskRef.current = mask;
+          setCutout("done");
+          setMaskVersion((v) => v + 1);
+        })
+        .catch(() => {
+          if (baseRef.current === base) setCutout("failed");
+        });
       setOriginal(url);
       setFocus({ x: 0.5, y: 0.42 });
       setShowOriginal(false);
@@ -229,7 +321,12 @@ export default function PortraitLab() {
                 Original
               </button>
             </div>
-            <p className="lab__hint">Toque na imagem para escolher onde fica o foco.</p>
+            <p className="lab__hint" role="status">
+              {cutout === "loading" && "Recortando a pessoa… na primeira vez leva alguns segundos."}
+              {cutout === "done" && "Fundo desfocado só atrás da pessoa."}
+              {cutout === "failed" && "Toque na imagem para escolher onde fica o foco."}
+              {cutout === "idle" && "Toque na imagem para escolher onde fica o foco."}
+            </p>
           </div>
 
           <div className="lab__actions">
@@ -267,7 +364,7 @@ export default function PortraitLab() {
             role="img"
             aria-label="Prévia da sua foto com fundo desfocado e cor tratada"
           />
-          {ready && !showOriginal && (
+          {ready && !showOriginal && cutout !== "done" && (
             <span
               className="lab__af"
               aria-hidden="true"

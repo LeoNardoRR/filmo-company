@@ -1,0 +1,3 @@
+Modelo de recorte de pessoa (MediaPipe Selfie Segmentation, licença Apache 2.0),
+copiado do pacote npm @mediapipe/selfie_segmentation para rodar sem CDN.
+Carregado só quando alguém usa a seção "Teste na sua foto".

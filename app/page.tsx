@@ -1,378 +1,293 @@
-"use client";
-
 import Image from "next/image";
-import { useEffect, useRef } from "react";
+import CameraViewfinder from "./camera-viewfinder";
+import {
+  email,
+  faq,
+  instagram,
+  phone,
+  processSteps,
+  reels,
+  services,
+  testimonials,
+  whatsapp,
+  whatsappLink,
+} from "./content";
+import SiteHeader from "./site-header";
 
-const whatsapp =
-  "https://wa.me/5519988509636?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Filmo%20Company%20e%20gostaria%20de%20conversar%20sobre%20um%20projeto.";
+const specialties = ["Fotografia", "Reels", "Vídeos verticais", "Conteúdo para marcas", "Eventos"];
 
-const projects = [
-  {
-    title: "Retrato de noiva",
-    category: "Casamento",
-    image: "/images/project-wedding.jpg",
-  },
-  {
-    title: "Ensaio pré-wedding",
-    category: "Casais",
-    image: "/images/project-couple.jpg",
-  },
-  {
-    title: "Casamento civil",
-    category: "Casamento",
-    image: "/images/project-civil.jpg",
-  },
-  {
-    title: "Retrato corporativo",
-    category: "Marcas",
-    image: "/images/project-food.jpg",
-  },
-  {
-    title: "Fotografia gastronômica",
-    category: "Gastronomia",
-    image: "/images/project-corporate.jpg",
-  },
+const nav = [
+  ...(reels.length ? [{ href: "#reels", label: "Reels" }] : []),
+  { href: "#servicos", label: "Serviços" },
+  { href: "#processo", label: "Processo" },
+  { href: "#sobre", label: "Sobre" },
+  { href: "#faq", label: "FAQ" },
 ];
-
-const services = [
-  {
-    number: "01",
-    title: "Foto & vídeo social",
-    text: "Fotos, Reels e Stories criados juntos para manter seu Instagram bonito, coerente e sempre em movimento.",
-  },
-  {
-    number: "02",
-    title: "Marcas & profissionais",
-    text: "Retratos, produtos e conteúdo para quem precisa comunicar valor com imagem, ritmo e intenção.",
-  },
-  {
-    number: "03",
-    title: "Eventos & histórias",
-    text: "Momentos reais transformados em vídeos curtos, registros sensíveis e conteúdo pronto para compartilhar.",
-  },
-];
-
-const process = [
-  ["01", "Imersão", "Entendemos a história, o público e o resultado que você quer alcançar."],
-  ["02", "Criação", "Transformamos o briefing em conceito, roteiro e uma direção visual clara."],
-  ["03", "Produção", "Organizamos equipe, captação e todos os detalhes do dia de filmagem."],
-  ["04", "Finalização", "Editamos, refinamos som e cor e entregamos o material pronto para circular."],
-];
-
-function HeroVisual({ mobile = false }: { mobile?: boolean }) {
-  return (
-    <div
-      className={`hero__visual ${mobile ? "hero__visual--mobile" : "hero__visual--desktop"}`}
-      aria-hidden={mobile ? "true" : undefined}
-      aria-label={mobile ? undefined : "Fotografias produzidas pela Filmo Company"}
-    >
-      <figure className="hero__frame hero__frame--primary">
-        <Image
-          src="/images/project-couple.jpg"
-          alt=""
-          fill
-          sizes={mobile ? "calc(100vw - 32px)" : "38vw"}
-          priority
-        />
-      </figure>
-      <div className="hero__format-label">
-        <span>01</span>
-        <strong>FOTO + VÍDEO</strong>
-        <small>CONTEÚDO PARA INSTAGRAM</small>
-      </div>
-      <span className="hero__visual-mark">FILMO / OLHAR EM MOVIMENTO</span>
-    </div>
-  );
-}
 
 export default function Home() {
-  const projectRail = useRef<HTMLDivElement>(null);
-  const mobileMenu = useRef<HTMLDetailsElement>(null);
-
-  useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-    const root = document.documentElement;
-    const elements = document.querySelectorAll<HTMLElement>("[data-reveal]");
-    root.classList.add("motion-ready");
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          entry.target.classList.add("is-visible");
-          observer.unobserve(entry.target);
-        });
-      },
-      { threshold: 0.14, rootMargin: "0px 0px -6% 0px" },
-    );
-
-    elements.forEach((element) => observer.observe(element));
-
-    return () => {
-      observer.disconnect();
-      root.classList.remove("motion-ready");
-    };
-  }, []);
-
-  function scrollProjects(direction: -1 | 1) {
-    const rail = projectRail.current;
-
-    if (!rail) return;
-
-    const firstProject = rail.querySelector<HTMLElement>(".project");
-    const cardWidth = firstProject?.getBoundingClientRect().width ?? rail.clientWidth * 0.8;
-    rail.scrollBy({ left: direction * (cardWidth + 18), behavior: "smooth" });
-  }
-
-  function closeMobileMenu() {
-    mobileMenu.current?.removeAttribute("open");
-  }
-
   return (
-    <main>
-      <header className="site-header">
-        <a className="brand" href="#inicio" aria-label="Filmo Company, início">
-          <Image src="/images/logo.png" alt="Filmo Company" width={396} height={154} priority />
-        </a>
+    <>
+      <SiteHeader items={nav} />
 
-        <nav className="desktop-nav" aria-label="Navegação principal">
-          <a href="#trabalhos">Trabalhos</a>
-          <a href="#servicos">Serviços</a>
-          <a href="#sobre">Sobre</a>
-          <a href="#contato">Contato</a>
-        </nav>
-
-        <a className="header-cta" href={whatsapp} target="_blank" rel="noreferrer">
-          Iniciar um projeto <span aria-hidden="true">↗</span>
-        </a>
-
-        <details className="mobile-menu" ref={mobileMenu}>
-          <summary aria-label="Abrir menu de navegação">
-            <span className="mobile-menu__label">Menu</span>
-            <span className="mobile-menu__icon" aria-hidden="true"><i /><i /></span>
-          </summary>
-          <nav aria-label="Navegação mobile">
-            <div className="mobile-menu__top">
-              <span>Navegação</span>
-              <b>FILMO / 2026</b>
-            </div>
-            <a href="#trabalhos" onClick={closeMobileMenu}><span>01</span><strong>Trabalhos</strong><i>↘</i></a>
-            <a href="#servicos" onClick={closeMobileMenu}><span>02</span><strong>Serviços</strong><i>↘</i></a>
-            <a href="#sobre" onClick={closeMobileMenu}><span>03</span><strong>Sobre</strong><i>↘</i></a>
-            <a href="#contato" onClick={closeMobileMenu}><span>04</span><strong>Contato</strong><i>↘</i></a>
-            <a className="mobile-menu__cta" href={whatsapp} target="_blank" rel="noreferrer" onClick={closeMobileMenu}>
-              <span>Tem uma ideia?</span>
-              <strong>Solicitar orçamento ↗</strong>
-            </a>
-          </nav>
-        </details>
-      </header>
-
-      <section className="hero" id="inicio">
-        <div className="hero__content shell">
-          <div className="hero__copy">
-            <p className="eyebrow">Foto + vídeo para Instagram · Americana, SP</p>
-            <h1>
-              Conteúdo que faz sua marca <em>parar o scroll.</em>
-            </h1>
-            <HeroVisual mobile />
-            <p>
-              Criamos fotos, Reels e vídeos verticais para marcas, profissionais e eventos que querem aparecer no Instagram com intenção.
-            </p>
-            <div className="weekend-note">
-              <span aria-hidden="true">●</span>
-              Atuamos exclusivamente aos finais de semana
-            </div>
-            <div className="hero__actions">
-              <a className="button button--primary" href="#trabalhos">
-                Veja nosso olhar
-              </a>
-              <a className="button button--ghost" href={whatsapp} target="_blank" rel="noreferrer">
-                Solicite um orçamento
-              </a>
-            </div>
-          </div>
-          <HeroVisual />
-        </div>
-        <div className="hero__index" aria-hidden="true">
-          <span>FILMO / 2026</span>
-          <span>22°44&apos;S · 47°20&apos;W</span>
-        </div>
-      </section>
-
-      <section className="marquee" aria-label="Especialidades">
-        <div>
-          <span>Fotografia</span><b>✦</b><span>Reels</span><b>✦</b><span>Vídeos verticais</span><b>✦</b><span>Conteúdo para marcas</span><b>✦</b><span>Eventos</span><b>✦</b><span>Fotografia</span>
-        </div>
-      </section>
-
-      <section className="work section shell" id="trabalhos">
-        <div className="section-heading" data-reveal>
-          <div>
-            <p className="eyebrow">Trabalhos selecionados</p>
-            <h2>Fotos que mostram nosso olhar.</h2>
-          </div>
-          <p className="section-heading__note">
-            Uma seleção de imagens que traduz nosso cuidado com enquadramento, direção e narrativa.
-          </p>
-        </div>
-
-        <div className="project-rail" ref={projectRail} aria-label="Galeria de trabalhos selecionados">
-          {projects.map((project, index) => (
-            <article className="project" key={project.title} data-reveal>
-              <Image
-                src={project.image}
-                alt={project.title}
-                fill
-                sizes="(max-width: 760px) 78vw, 31vw"
-              />
-              <div className="project__overlay" />
-              <span className="project__number">0{index + 1}</span>
-              <div className="project__caption">
-                <p>{project.category}</p>
-                <h3>{project.title}</h3>
-              </div>
-            </article>
-          ))}
-        </div>
-        <div className="project-rail__footer">
-          <span>Use as setas para ver mais</span>
-          <div className="project-rail__controls" aria-label="Controles da galeria">
-            <button type="button" onClick={() => scrollProjects(-1)} aria-label="Ver trabalho anterior">
-              ←
-            </button>
-            <button type="button" onClick={() => scrollProjects(1)} aria-label="Ver próximo trabalho">
-              →
-            </button>
-          </div>
-        </div>
-      </section>
-
-      <section className="services section" id="servicos">
-        <div className="shell">
-          <div className="section-heading section-heading--light" data-reveal>
-            <div>
-              <p className="eyebrow">O que fazemos</p>
-            <h2>Foto e vídeo para o feed real.</h2>
-            </div>
-            <p className="section-heading__note">Conteúdo curto, estratégico e visualmente forte para marcas, profissionais e momentos.</p>
-          </div>
-
-          <div className="service-list">
-            {services.map((service) => (
-              <article className="service" key={service.number} data-reveal>
-                <span>{service.number}</span>
-                <h3>{service.title}</h3>
-                <p>{service.text}</p>
-                <a href={whatsapp} target="_blank" rel="noreferrer" aria-label={`Conversar sobre ${service.title}`}>
-                  Conversar <span aria-hidden="true">↗</span>
+      <main>
+        <section className="hero" id="inicio">
+          <div className="hero__inner shell">
+            <div className="hero__copy">
+              <p className="eyebrow eyebrow--yellow">Foto + vídeo para Instagram · Americana, SP</p>
+              <h1 className="display display--hero">
+                Conteúdo que faz sua marca <em>parar o scroll.</em>
+              </h1>
+              <p className="hero__lead">
+                Criamos fotos, Reels e vídeos verticais para marcas, profissionais e eventos que querem aparecer no
+                Instagram com intenção.
+              </p>
+              <div className="hero__actions">
+                <a className="button button--yellow button--large" href={whatsapp} target="_blank" rel="noreferrer">
+                  Pedir orçamento no WhatsApp <span aria-hidden="true">↗</span>
                 </a>
-              </article>
+                <a className="button button--ghost button--large" href="#servicos">
+                  Ver serviços
+                </a>
+              </div>
+              <ul className="hero__facts">
+                <li>Foto + vídeo vertical</li>
+                <li>Direção, captação e edição</li>
+                <li>Produções aos fins de semana</li>
+              </ul>
+            </div>
+
+          </div>
+        </section>
+
+        <section className="marquee" aria-label="Especialidades">
+          <div className="marquee__track">
+            {[0, 1, 2, 3].map((copy) => (
+              <div className="marquee__group" key={copy} aria-hidden={copy > 0 ? "true" : undefined}>
+                {specialties.map((item) => (
+                  <span key={item}>
+                    {item}
+                    <b aria-hidden="true">✦</b>
+                  </span>
+                ))}
+              </div>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section className="about section shell" id="sobre">
-        <div className="about__image-wrap" data-reveal>
-          <Image
-            className="about__image"
-            src="/images/team.jpg"
-            alt="Equipe audiovisual em produção"
-            fill
-            sizes="(max-width: 900px) 100vw, 46vw"
-          />
-          <div className="about__stamp">
-            <strong>FILMO</strong>
-            <span>AMERICANA · SP</span>
-          </div>
-        </div>
-        <div className="about__copy" data-reveal>
-          <p className="eyebrow">Sobre a Filmo</p>
-          <h2>Imagem com intenção, em foto e vídeo.</h2>
-          <p className="about__lead">
-            A Filmo transforma ideias, negócios e momentos em conteúdo visual feito para comunicar rápido e permanecer na memória.
-          </p>
-          <p>
-            Criamos fotos e vídeos para Instagram com direção, captação e edição cuidadosas. Cada projeto começa pela escuta e termina pronto para circular no formato certo.
-          </p>
-          <a className="text-link" href={whatsapp} target="_blank" rel="noreferrer">
-            Conte sua ideia <span aria-hidden="true">↗</span>
-          </a>
-        </div>
-      </section>
+        <CameraViewfinder />
 
-      <section className="process section shell">
-        <div className="section-heading" data-reveal>
-          <div>
-            <p className="eyebrow">Nosso processo</p>
-            <h2>Da ideia ao post.</h2>
-          </div>
-        </div>
-        <div className="process-grid">
-          {process.map(([number, title, text]) => (
-            <article className="process-step" key={number} data-reveal>
-              <span>{number}</span>
-              <h3>{title}</h3>
-              <p>{text}</p>
-            </article>
-          ))}
-        </div>
-      </section>
+        {reels.length > 0 && (
+          <section className="section section--dark" id="reels" aria-labelledby="reels-title">
+            <div className="shell">
+              <div className="section-head">
+                <div className="section-head__title">
+                  <p className="eyebrow eyebrow--yellow">Em movimento</p>
+                  <h2 id="reels-title" className="display">
+                    Reels e vídeos <em>verticais.</em>
+                  </h2>
+                </div>
+                <p className="section-head__note">
+                  Vídeos curtos pensados para o feed, com ritmo, som e cor ajustados para a tela do celular.
+                </p>
+              </div>
+              <div className="reel-grid">
+                {reels.map((reel) => (
+                  <video
+                    key={reel.src}
+                    className="reel"
+                    src={reel.src}
+                    poster={reel.poster}
+                    controls
+                    playsInline
+                    preload="none"
+                    aria-label={reel.title}
+                  />
+                ))}
+              </div>
+              <a className="link-underline link-underline--light" href={instagram} target="_blank" rel="noreferrer">
+                Assista mais no @filmocompany <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+          </section>
+        )}
 
-      <section className="testimonials section">
-        <div className="shell">
-          <p className="eyebrow">Quem já viveu essa experiência</p>
-          <div className="quote-grid">
-            <blockquote data-reveal>
-              <p>“Cada foto transmite perfeitamente a emoção e a essência desses momentos tão especiais.”</p>
-              <footer>Fabrício &amp; Andressa <span>· Casamento</span></footer>
-            </blockquote>
-            <blockquote data-reveal>
-              <p>“Eles entendem o que a marca quer dizer e entregam muito mais do que se espera.”</p>
-              <footer>Diego Augusto <span>· Marketing, MKData</span></footer>
-            </blockquote>
-          </div>
-        </div>
-      </section>
+        <section className="section section--light" id="servicos" aria-labelledby="servicos-title">
+          <div className="shell">
+            <div className="section-head">
+              <div className="section-head__title">
+                <p className="eyebrow eyebrow--dot">O que fazemos</p>
+                <h2 id="servicos-title" className="display">
+                  Foto e vídeo para o <em>feed real.</em>
+                </h2>
+              </div>
+              <p className="section-head__note">
+                Conteúdo curto, estratégico e visualmente forte para marcas, profissionais e momentos.
+              </p>
+            </div>
 
-      <section className="contact section shell" id="contato">
-        <div className="contact__card" data-reveal>
-          <p className="eyebrow">Vamos criar juntos?</p>
-          <h2>Tem uma história que merece ser vista?</h2>
-          <p>Conte brevemente o que você imagina. A gente responde com os próximos passos e um orçamento sob medida.</p>
-          <a className="button button--dark" href={whatsapp} target="_blank" rel="noreferrer">
-            Falar no WhatsApp <span aria-hidden="true">↗</span>
-          </a>
-        </div>
-        <div className="contact__details" data-reveal>
-          <div>
-            <span>E-mail</span>
-            <a href="mailto:filmocompany@gmail.com">filmocompany@gmail.com</a>
+            <div className="service-grid">
+              {services.map((service) => (
+                <article className="service" key={service.number}>
+                  <span className="service__number">{service.number}</span>
+                  <h3>{service.title}</h3>
+                  <p>{service.text}</p>
+                  <div className="service__footer">
+                    {service.from && <span className="service__price">A partir de {service.from}</span>}
+                    <a
+                      className="button button--dark button--small"
+                      href={whatsappLink(service.message)}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={`Conversar sobre ${service.title}`}
+                    >
+                      Conversar <span aria-hidden="true">↗</span>
+                    </a>
+                  </div>
+                </article>
+              ))}
+            </div>
           </div>
-          <div>
-            <span>Telefone</span>
-            <a href={whatsapp} target="_blank" rel="noreferrer">+55 19 98850-9636</a>
+        </section>
+
+        <section className="section section--dark" id="processo" aria-labelledby="processo-title">
+          <div className="shell">
+            <p className="eyebrow eyebrow--yellow">Nosso processo</p>
+            <h2 id="processo-title" className="display">
+              Da ideia <em>ao post.</em>
+            </h2>
+            <ol className="process-grid">
+              {processSteps.map((step) => (
+                <li key={step.number}>
+                  <span>{step.number} / 04</span>
+                  <h3>{step.title}</h3>
+                  <p>{step.text}</p>
+                </li>
+              ))}
+            </ol>
           </div>
-          <div>
-            <span>Localização</span>
-            <p>Americana, São Paulo</p>
+        </section>
+
+        <section className="section section--light" id="sobre" aria-labelledby="sobre-title">
+          <div className="shell about">
+            <div className="about__copy">
+              <p className="eyebrow eyebrow--dot">Sobre a Filmo</p>
+              <h2 id="sobre-title" className="display display--medium">
+                Imagem com intenção, <em>em foto e vídeo.</em>
+              </h2>
+              <p className="about__lead">
+                A Filmo transforma ideias, negócios e momentos em conteúdo visual feito para comunicar rápido e
+                permanecer na memória.
+              </p>
+              <p>
+                Criamos fotos e vídeos para Instagram com direção, captação e edição cuidadosas. Cada projeto começa
+                pela escuta e termina pronto para circular no formato certo.
+              </p>
+              <a className="button button--dark button--large" href={whatsapp} target="_blank" rel="noreferrer">
+                Conte sua ideia <span aria-hidden="true">↗</span>
+              </a>
+            </div>
           </div>
-          <div>
-            <span>Redes</span>
-            <a href="https://www.instagram.com/filmocompany/" target="_blank" rel="noreferrer">Instagram ↗</a>
+        </section>
+
+        <section className="section section--dark" aria-labelledby="depoimentos-title">
+          <div className="shell">
+            <p className="eyebrow eyebrow--yellow" id="depoimentos-title">
+              Quem já viveu essa experiência
+            </p>
+            <div className="quote-grid">
+              {testimonials.map((item) => (
+                <figure key={item.author}>
+                  <blockquote>
+                    <span aria-hidden="true">“</span>
+                    {item.quote}
+                    <span aria-hidden="true">”</span>
+                  </blockquote>
+                  <figcaption>
+                    {item.author} · {item.role}
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+
+        <section className="section section--light" id="faq" aria-labelledby="faq-title">
+          <div className="shell faq">
+            <div className="faq__intro">
+              <p className="eyebrow eyebrow--dot">Perguntas frequentes</p>
+              <h2 id="faq-title" className="display display--medium">
+                Antes de <em>chamar a gente.</em>
+              </h2>
+              <p>
+                Não achou sua dúvida?{" "}
+                <a className="link-underline" href={whatsapp} target="_blank" rel="noreferrer">
+                  Pergunte no WhatsApp
+                </a>
+                .
+              </p>
+            </div>
+            <div className="faq__list">
+              {faq.map((item, index) => (
+                <details key={item.question} open={index === 0}>
+                  <summary>
+                    {item.question}
+                    <span aria-hidden="true">+</span>
+                  </summary>
+                  <p>{item.answer}</p>
+                </details>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="cta" id="contato" aria-labelledby="contato-title">
+          <div className="shell cta__inner">
+            <p className="eyebrow">Vamos criar juntos?</p>
+            <h2 id="contato-title" className="display display--cta">
+              Tem uma história que <em>merece ser vista?</em>
+            </h2>
+            <p className="cta__lead">
+              Conte brevemente o que você imagina. A gente responde com os próximos passos e um orçamento sob medida.
+            </p>
+            <a className="button button--dark button--xl" href={whatsapp} target="_blank" rel="noreferrer">
+              Falar no WhatsApp <span aria-hidden="true">↗</span>
+            </a>
+            <dl className="cta__details">
+              <div>
+                <dt>E-mail</dt>
+                <dd><a href={`mailto:${email}`}>{email}</a></dd>
+              </div>
+              <div>
+                <dt>Telefone</dt>
+                <dd><a href="tel:+5519988509636">{phone}</a></dd>
+              </div>
+              <div>
+                <dt>Localização</dt>
+                <dd>Americana, São Paulo</dd>
+              </div>
+              <div>
+                <dt>Instagram</dt>
+                <dd><a href={instagram} target="_blank" rel="noreferrer">@filmocompany</a></dd>
+              </div>
+            </dl>
+          </div>
+        </section>
+      </main>
 
       <footer className="site-footer">
         <div className="site-footer__inner shell">
-          <Image src="/images/logo.png" alt="Filmo Company" width={396} height={154} />
-          <p>Produção audiovisual em Americana, SP.</p>
+          <div className="site-footer__brand">
+            <Image src="/images/logo.png" alt="Filmo Company" width={396} height={154} />
+            <p>Produção audiovisual em Americana, SP.</p>
+          </div>
+          <nav className="site-footer__links" aria-label="Contato">
+            <a href={instagram} target="_blank" rel="noreferrer">Instagram</a>
+            <a href={whatsapp} target="_blank" rel="noreferrer">WhatsApp</a>
+            <a href={`mailto:${email}`}>E-mail</a>
+          </nav>
           <p>© 2026 Filmo Company</p>
         </div>
       </footer>
-    </main>
+    </>
   );
 }
